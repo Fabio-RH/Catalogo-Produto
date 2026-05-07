@@ -1,1 +1,4 @@
-export class CreateEstoqueDto {}
+export class CreateEstoqueDto {
+  quantidadeEstoque: number;
+  disponibilidadeEstoque: string;
+}

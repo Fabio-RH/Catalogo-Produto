@@ -1,1 +1,4 @@
-export class CreateImagemDto {}
+export class CreateImagemDto {
+  urlImagem: string;
+  produtoId: number;
+}

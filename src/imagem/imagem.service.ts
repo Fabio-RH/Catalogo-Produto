@@ -1,26 +1,38 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateImagemDto } from './dto/create-imagem.dto';
-import { UpdateImagemDto } from './dto/update-imagem.dto';
 
 @Injectable()
 export class ImagemService {
-  create(createImagemDto: CreateImagemDto) {
-    return 'This action adds a new imagem';
-  }
-
-  findAll() {
-    return `This action returns all imagem`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} imagem`;
-  }
-
-  update(id: number, updateImagemDto: UpdateImagemDto) {
-    return `This action updates a #${id} imagem`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} imagem`;
-  }
+constructor(private prisma: PrismaService) {}
+async create(data: CreateImagemDto) {
+return await this.prisma.imagem.create({
+data,
+include: {
+produto: true,
+},
+});
 }
+async findAll() {
+return await this.prisma.imagem.findMany({
+include: {
+produto: true,
+},
+});
+}
+async remove(id: number) {
+const imagem = await this.prisma.imagem.findUnique({
+where: {
+idImagem: id,
+},
+});
+}
+}
+if (!imagem) {
+throw new NotFoundException('Imagem não encontrada');
+}
+return await this.prisma.imagem.delete({
+where: {
+idImagem: id,
+},
+})
