@@ -1,0 +1,60 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Categoria {
+  idCategoria          Int        @id @default(autoincrement())
+  nomeCategoria        String
+  descricaoCategoria   String?
+
+  produtos             Produto[]
+
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+}
+
+model Produto {
+  idProduto        Int        @id @default(autoincrement())
+  nomeProduto      String
+  precoProduto     Float
+
+  categoriaId      Int?
+  categoria         Categoria? @relation(fields: [categoriaId], references: [idCategoria])
+
+  estoque          Estoque?
+
+  imagens          Imagem[]
+
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+}
+
+model Estoque {
+  idEstoque                 Int       @id @default(autoincrement())
+  quantidadeEstoque         Int
+  disponibilidadeEstoque    String
+
+  produtoId                 Int       @unique
+  produto                   Produto   @relation(fields: [produtoId], references: [idProduto])
+
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+}
+
+model Imagem {
+  idImagem       Int       @id @default(autoincrement())
+  urlImagem      String
+
+  produtoId      Int
+  produto        Produto   @relation(fields: [produtoId], references: [idProduto])
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
