@@ -1,60 +1,53 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 
 @Injectable()
 export class ProdutoService {
-constructor(private prisma: PrismaService) {}
-async create(data: CreateProdutoDto) {
-return await this.prisma.produto.create({
-data,
-include: {
-categoria: true,
-estoque: true,
-imagens: true,
-},
-});
+  constructor(private prisma: PrismaService) {}
+
+  async create(data: CreateProdutoDto) {
+    return await this.prisma.produto.create({
+      data,
+    });
+  }
+
+  async findAll() {
+    return await this.prisma.produto.findMany();
+  }
+
+  async findOne(id: number) {
+    const produto = await this.prisma.produto.findUnique({
+      where: {
+        idProduto: id,
+      },
+    });
+
+    if (!produto) {
+      throw new NotFoundException('Produto não encontrado');
+    }
+
+    return produto;
+  }
+
+  async update(id: number, data: any) {
+    await this.findOne(id);
+
+    return await this.prisma.produto.update({
+      where: {
+        idProduto: id,
+      },
+      data,
+    });
+  }
+
+  async remove(id: number) {
+    await this.findOne(id);
+
+    return await this.prisma.produto.delete({
+      where: {
+        idProduto: id,
+      },
+    });
+  }
 }
-async findAll() {
-return await this.prisma.produto.findMany({
-include: {
-categoria: true,
-estoque: true,
-imagens: true,
-},
-});
-}
-async findOne(id: number) {
-const produto = await this.prisma.produto.findUnique({
-where: {
-idProduto: id,
-},
-include: {
-categoria: true,
-estoque: true,
-imagens: true,
-},
-});
-if (!produto) {
-throw new NotFoundException('Produto não encontrado');
-}
-return produto;
-}
-async update(id: number, data: any) {
-await this.findOne(id);
-return await this.prisma.produto.update({
-where: {
-idProduto: id,
-},
-data,
-});
-}
-async remove(id: number) {
-await this.findOne(id);
-}
-}
-return await this.prisma.produto.delete({
-where: {
-idProduto: id,
-},
-})

@@ -1,4 +1,4 @@
-import {Injectable, NotFoundException,} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 
@@ -13,20 +13,13 @@ export class CategoriaService {
   }
 
   async findAll() {
-    return await this.prisma.categoria.findMany({
-      include: {
-        produtos: true,
-      },
-    });
+    return await this.prisma.categoria.findMany();
   }
 
   async findOne(id: number) {
     const categoria = await this.prisma.categoria.findUnique({
       where: {
         idCategoria: id,
-      },
-      include: {
-        produtos: true,
       },
     });
 

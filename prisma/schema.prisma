@@ -1,5 +1,3 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,51 +8,35 @@ datasource db {
 }
 
 model Categoria {
-  idCategoria          Int        @id @default(autoincrement())
-  nomeCategoria        String
-  descricaoCategoria   String?
+  idCategoria         Int      @id @default(autoincrement()) @map("id_categoria")
+  nomeCategoria       String   @map("nome_categoria")
+  descricaoCategoria  String?  @map("descricao_categoria")
 
-  produtos             Produto[]
-
-  createdAt            DateTime   @default(now())
-  updatedAt            DateTime   @updatedAt
+  @@map("categoria")
 }
 
 model Produto {
-  idProduto        Int        @id @default(autoincrement())
-  nomeProduto      String
-  precoProduto     Float
+  idProduto        Int     @id @default(autoincrement()) @map("id_produto")
+  nomeProduto      String  @map("nome_produto")
+  precoProduto     Float   @map("preco_produto")
 
-  categoriaId      Int?
-  categoria         Categoria? @relation(fields: [categoriaId], references: [idCategoria])
+  categoriaId      Int?    @map("categoria_id_categoria")
+  estoqueId        Int?    @map("estoque_id_estoque")
 
-  estoque          Estoque?
-
-  imagens          Imagem[]
-
-  createdAt        DateTime   @default(now())
-  updatedAt        DateTime   @updatedAt
+  @@map("produto")
 }
 
 model Estoque {
-  idEstoque                 Int       @id @default(autoincrement())
-  quantidadeEstoque         Int
-  disponibilidadeEstoque    String
+  idEstoque                Int     @id @default(autoincrement()) @map("id_estoque")
+  quantidadeEstoque        Int     @map("quantidade_estoque")
+  disponibilidadeEstoque   String  @map("disponibilidade_estoque")
 
-  produtoId                 Int       @unique
-  produto                   Produto   @relation(fields: [produtoId], references: [idProduto])
-
-  createdAt                 DateTime  @default(now())
-  updatedAt                 DateTime  @updatedAt
+  @@map("estoque")
 }
 
 model Imagem {
-  idImagem       Int       @id @default(autoincrement())
-  urlImagem      String
+  idImagem      Int    @id @default(autoincrement()) @map("id_imagem")
+  urlImagem     String @map("url_imagem")
 
-  produtoId      Int
-  produto        Produto   @relation(fields: [produtoId], references: [idProduto])
-
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  @@map("imagem")
 }
