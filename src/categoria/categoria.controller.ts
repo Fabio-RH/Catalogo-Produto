@@ -1,6 +1,7 @@
 import {Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post} from '@nestjs/common';
 import { CategoriaService } from './categoria.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
+import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 
 @Controller('categorias')
 export class CategoriaController {
@@ -20,7 +21,7 @@ return this.categoriaService.findOne(id);
 @Patch(':id')
 update(
 @Param('id', ParseIntPipe) id: number,
-@Body() dto: any,
+@Body() dto: UpdateCategoriaDto,
 ) {
 return this.categoriaService.update(id, dto);
 }

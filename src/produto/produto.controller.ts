@@ -11,6 +11,7 @@ import {
 
 import { ProdutoService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
+import { UpdateProdutoDto } from './dto/update-produto.dto';
 
 @Controller('produto')
 export class ProdutoController {
@@ -34,7 +35,7 @@ export class ProdutoController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: any,
+    @Body() dto: UpdateProdutoDto,
   ) {
     return this.produtoService.update(id, dto);
   }

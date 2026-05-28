@@ -1,7 +1,10 @@
-export class CreateProdutoDto {
-  nomeProduto: string;
-  precoProduto: number;
+import { ApiProperty } from '@nestjs/swagger';
 
-  categoriaId?: number;
-  estoqueId?: number;
+export class CreateProdutoDto {
+
+  @ApiProperty()
+  nomeProduto: string;
+
+  @ApiProperty()
+  precoProduto: number;
 }
