@@ -6,6 +6,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors();
+
   const config = new DocumentBuilder()
     .setTitle('Catálogo de Produtos')
     .setDescription('API do catálogo de produtos')
@@ -19,4 +21,5 @@ async function bootstrap() {
 
   await app.listen(3000);
 }
+
 bootstrap();
