@@ -50,4 +50,42 @@ export class ProdutoService {
       },
     });
   }
+
+  async validarItensPedido(
+    itens: { produtoId: number; quantidade: number }[],
+  ) {
+    const itensDisponiveis: { produtoId: number }[] = [];
+
+    for (const item of itens) {
+      const produto = await this.prisma.produto.findUnique({
+        where: {
+          idProduto: item.produtoId,
+        },
+      });
+
+      if (!produto || !produto.estoqueId) {
+        continue;
+      }
+
+      const estoque = await this.prisma.estoque.findUnique({
+        where: {
+          idEstoque: produto.estoqueId,
+        },
+      });
+
+      if (!estoque) {
+        continue;
+      }
+
+      if (estoque.quantidadeEstoque >= item.quantidade) {
+        itensDisponiveis.push({
+          produtoId: produto.idProduto,
+        });
+      }
+    }
+
+    return {
+      itensDisponiveis,
+    };
+  }
 }

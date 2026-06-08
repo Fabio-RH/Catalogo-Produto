@@ -8,7 +8,7 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-
+import { ValidarItensDto } from './dto/check-produtoDTO';
 import { ProdutoService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
@@ -44,4 +44,9 @@ export class ProdutoController {
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.produtoService.remove(id);
   }
+
+  @Post('validar-itens')
+validarItens(@Body() dto: ValidarItensDto) {
+  return this.produtoService.validarItensPedido(dto.itens);
+}
 }
