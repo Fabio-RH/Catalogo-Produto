@@ -8,35 +8,42 @@ datasource db {
 }
 
 model Categoria {
-  idCategoria         Int      @id @default(autoincrement()) @map("id_categoria")
-  nomeCategoria       String   @map("nome_categoria")
-  descricaoCategoria  String?  @map("descricao_categoria")
+  idCategoria        Int       @id @default(autoincrement()) @map("id_categoria")
+  nomeCategoria      String    @map("nome_categoria")
+  descricaoCategoria String?   @map("descricao_categoria")
+
+  produtos           Produto[]
 
   @@map("categoria")
 }
 
-model Produto {
-  idProduto        Int     @id @default(autoincrement()) @map("id_produto")
-  nomeProduto      String  @map("nome_produto")
-  precoProduto     Float   @map("preco_produto")
-
-  categoriaId      Int?    @map("categoria_id_categoria")
-  estoqueId        Int?    @map("estoque_id_estoque")
-
-  @@map("produto")
-}
-
 model Estoque {
-  idEstoque                Int     @id @default(autoincrement()) @map("id_estoque")
-  quantidadeEstoque        Int     @map("quantidade_estoque")
-  disponibilidadeEstoque   String  @map("disponibilidade_estoque")
+  idEstoque               Int       @id @default(autoincrement()) @map("id_estoque")
+  quantidadeEstoque       Int       @map("quantidade_estoque")
+  disponibilidadeEstoque  String    @map("disponibilidade_estoque")
+
+  produtos                Produto[]
 
   @@map("estoque")
 }
 
+model Produto {
+  idProduto      Int       @id @default(autoincrement()) @map("id_produto")
+  nomeProduto    String    @map("nome_produto")
+  precoProduto   Float     @map("preco_produto")
+
+  categoriaId    Int?      @map("categoria_id_categoria")
+  estoqueId      Int?      @map("estoque_id_estoque")
+
+  categoria      Categoria? @relation(fields: [categoriaId], references: [idCategoria])
+  estoque        Estoque?   @relation(fields: [estoqueId], references: [idEstoque])
+
+  @@map("produto")
+}
+
 model Imagem {
-  idImagem      Int    @id @default(autoincrement()) @map("id_imagem")
-  urlImagem     String @map("url_imagem")
+  idImagem       Int      @id @default(autoincrement()) @map("id_imagem")
+  urlImagem      String   @map("url_imagem")
 
   @@map("imagem")
 }
