@@ -7,9 +7,23 @@ export class ProdutoService {
   constructor(private prisma: PrismaService) {}
 
   async create(data: CreateProdutoDto) {
-    return await this.prisma.produto.create({
-      data,
-    });
+    try {
+      console.log('DTO RECEBIDO:', JSON.stringify(data, null, 2));
+
+      return await this.prisma.produto.create({
+        data: {
+          nomeProduto: data.nomeProduto,
+          precoProduto: data.precoProduto,
+          categoriaId: data.categoriaId,
+          estoqueId: data.estoqueId,
+        },
+      });
+    } catch (error) {
+      console.error('ERRO COMPLETO:');
+      console.error(error);
+
+      throw error;
+    }
   }
 
   async findAll() {
