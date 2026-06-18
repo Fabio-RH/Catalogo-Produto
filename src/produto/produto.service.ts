@@ -16,6 +16,7 @@ export class ProdutoService {
           precoProduto: data.precoProduto,
           categoriaId: data.categoriaId,
           estoqueId: data.estoqueId,
+          urlImagem: data.urlImagem,
         },
       });
     } catch (error) {

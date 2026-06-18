@@ -32,6 +32,8 @@ model Produto {
   nomeProduto    String    @map("nome_produto")
   precoProduto   Float     @map("preco_produto")
 
+  urlImagem      String?   @map("url_imagem")
+
   categoriaId    Int?      @map("categoria_id_categoria")
   estoqueId      Int?      @map("estoque_id_estoque")
 

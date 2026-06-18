@@ -12,4 +12,7 @@ export class CreateProdutoDto {
 
   @ApiProperty({ required: false })
   estoqueId?: number;
+
+  @ApiProperty({ required: false })
+  urlImagem?: string;
 }
