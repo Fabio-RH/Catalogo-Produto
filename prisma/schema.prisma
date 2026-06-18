@@ -42,10 +42,3 @@ model Produto {
 
   @@map("produto")
 }
-
-model Imagem {
-  idImagem       Int      @id @default(autoincrement()) @map("id_imagem")
-  urlImagem      String   @map("url_imagem")
-
-  @@map("imagem")
-}

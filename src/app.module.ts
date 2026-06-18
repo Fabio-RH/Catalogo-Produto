@@ -6,7 +6,6 @@ import { PrismaModule } from './prisma/prisma.module';
 
 import { CategoriaModule } from './categoria/categoria.module';
 import { EstoqueModule } from './estoque/estoque.module';
-import { ImagemModule } from './imagem/imagem.module';
 import { ProdutoModule } from './produto/produto.module';
 
 @Module({
@@ -14,7 +13,6 @@ import { ProdutoModule } from './produto/produto.module';
     PrismaModule,
     CategoriaModule,
     EstoqueModule,
-    ImagemModule,
     ProdutoModule,
   ],
   controllers: [AppController],
