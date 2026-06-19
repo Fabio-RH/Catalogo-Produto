@@ -1,20 +1,29 @@
-# Indicar a Imagem e qual versão do Node que vou usar
+# Imagem base
 FROM node:20-alpine
 
-#2: Diretório de trabalho dentro do Container
+# Diretório de trabalho
 WORKDIR /app
 
-#3: Criar os arquivos de dependencia
-COPY package.json .
+# Copia arquivos de dependências
+COPY package*.json ./
 
-#4 Instala as dependencias
+# Instala dependências
 RUN npm install
 
-#5 Copiar o restante do codigo
+# Copia schema do Prisma
+COPY prisma ./prisma
+
+# Gera o Prisma Client
+RUN npx prisma generate
+
+# Copia o restante do projeto
 COPY . .
 
-#6 iNFORMAR AO DOCKER QUAL PORTA A APLICAÇÃO USARÁ
+# Compila o NestJS
+RUN npm run build
+
+# Porta da API
 EXPOSE 3000
 
-#7 COMANDO PARA SER EXECUTADO QUANDO O CONTAINER INICIAR
-CMD ['node', "nest start"]
+# Inicia a aplicação
+CMD ["node", "dist/main.js"]
