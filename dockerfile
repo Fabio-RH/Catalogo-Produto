@@ -1,29 +1,20 @@
-# Imagem base
-FROM node:20-alpine
+FROM node:20-bookworm-slim
 
-# Diretório de trabalho
 WORKDIR /app
 
-# Copia arquivos de dependências
+# Necessário para Prisma em runtime
+RUN apt-get update     && apt-get install -y --no-install-recommends openssl     && rm -rf /var/lib/apt/lists/*
+
 COPY package*.json ./
+RUN npm ci
 
-# Instala dependências
-RUN npm install
-
-# Copia schema do Prisma
-COPY prisma ./prisma
-
-# Gera o Prisma Client
-RUN npx prisma generate
-
-# Copia o restante do projeto
+# Copia todo o projeto, incluindo o .env de cada API
 COPY . .
 
-# Compila o NestJS
+RUN npx prisma generate
 RUN npm run build
+RUN npm prune --omit=dev
 
-# Porta da API
-EXPOSE 3000
+EXPOSE 3010
 
-# Inicia a aplicação
-CMD ["node", "dist/main.js"]
+CMD ["npm", "run", "start:prod"]
